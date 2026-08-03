@@ -36,12 +36,12 @@ class FixedSizeChunker:
 
 
 class SentenceChunker:
+    _SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])(?:\s+|\n+)")
 
     def __init__(self, max_sentences_per_chunk: int = 3) -> None:
         self.max_sentences_per_chunk = max(1, max_sentences_per_chunk)
 
     def chunk(self, text: str) -> list[str]:
-        _SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])(?:\s+|\n+)")
 
         text = text.strip()
         if not text:
@@ -167,8 +167,8 @@ class ChunkingStrategyComparator:
 
     def compare(self, text: str, chunk_size: int = 200) -> dict:
         strategies = {
-            "fixed": FixedSizeChunker(chunk_size),
-            "sentence": SentenceChunker(),
+            "fixed_size": FixedSizeChunker(chunk_size),
+            "by_sentences": SentenceChunker(),
             "recursive": RecursiveChunker(chunk_size=chunk_size),
         }
 
@@ -180,8 +180,8 @@ class ChunkingStrategyComparator:
             lengths = [len(c) for c in chunks]
 
             results[name] = {
-                "num_chunks": len(chunks),
-                "avg_chunk_length": (
+                "count": len(chunks),
+                "avg_length": (
                     sum(lengths) / len(lengths) if lengths else 0
                 ),
                 "max_chunk_length": max(lengths, default=0),
