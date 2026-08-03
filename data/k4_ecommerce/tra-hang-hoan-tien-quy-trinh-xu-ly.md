@@ -8,7 +8,6 @@ customer_role: buyer
 category: returns
 language: vi
 ---
-
 # [Trả hàng/ Hoàn tiền] Quy trình Shopee xử lý yêu cầu Trả hàng/ Hoàn tiền
 
 1. Nguyên tắc chung
@@ -17,7 +16,7 @@ Tùy từng trường hợp cụ thể, yêu cầu Trả hàng/ Hoàn tiền c�
 
 Đối với các yêu cầu Trả hàng/Hoàn tiền hiển thị trạng thái Shopee đang xem xét: Đây là quá trình Shopee đang tiến hành rà soát yêu cầu của bạn và sẽ gửi kết quả xử lý tới bạn trong vòng 3-5 ngày làm việc (không tính chủ nhật và các ngày lễ, Tết) qua mục Thông báo > Cập nhật đơn hàng, hoặc qua email bạn đã cung cấp.
 
-⚠️ Lưu ý: 
+⚠️ Lưu ý:
 
 Bạn vui lòng thường xuyên theo dõi thông báo trên ứng dụng Shopee để nhanh chóng cập nhật tiến trình xử lý khiếu nại Trả hàng/Hoàn tiền cũng như kịp thời bổ sung các thông tin được yêu cầu từ Shopee (nếu có)
 
@@ -38,6 +37,7 @@ Cách 2
 Bước 1: Vào mục Tôi > Trả hàng/Hoàn tiền > Chọn đơn hàng cần bổ sung bằng chứng
 
 Bước 2: Chọn ‘Đăng tải bằng chứng’ > Tiếp tục chọn “Đăng tải bằng chứng” > Thêm hình/video như hướng dẫn > bấm Gửi đi
+
 Sau khi đã cung cấp bằng chứng thành công, bạn vui lòng thường xuyên theo dõi tại phần thông báo Shopee để nhanh chóng được cập nhật tình hình xử lý của yêu cầu Trả hàng/Hoàn tiền.
 
 3. Phân loại phương án xử lý Trả hàng/ Hoàn tiền của Shopee
@@ -53,68 +53,133 @@ Nếu Shopee đồng ý cho bạn Trả hàng & Hoàn tiền: Bạn cần chọn
 Shopee sẽ kiểm tra tình trạng hàng hoàn trả dựa trên lý do của yêu cầu Trả hàng/Hoàn tiền và những bằng chứng được cung cấp. Chi tiết các điều kiện tham khảo dưới đây:
 
 Lý do khiếu nại
+
 Điều kiện áp dụng
+
 Lưu ý
+
 Chưa sử dụng
+
 Chưa mở hộp
+
 Còn đầy đủ phụ kiện kèm theo
+
 Không bể, vỡ
+
 Còn giấy bảo hành của nhà sản xuất hoặc Người bán
+
 Còn nguyên nhãn, mác, tem hộp
+
 Chưa nhận được hàng
+
 -
+
 -
+
 -
+
 -
+
 -
-- 
+
+-
+
 Hàng bể vỡ
+
 ✔
+
 -
+
 ✔
+
 -
+
 ✔
-- 
+
+-
+
 Người bán gửi sai hàng
+
 ✔
+
 -
+
 ✔
+
 ✔
+
 ✔
-✔ 
+
+✔
+
 Hàng lỗi, không hoạt động
+
 -
+
 -
+
 ✔
+
 ✔
+
 ✔
-- 
+
+-
+
 Khác với mô tả
+
 ✔
+
 -
+
 ✔
+
 ✔
+
 ✔
-✔ 
+
+✔
+
 Hàng giả, nhái
+
 -
+
 -
+
 ✔
+
 ✔
+
 ✔
-- 
+
+-
+
 Hàng đã qua sử dụng
+
 -
+
 -
+
 ✔
+
 ✔
+
 ✔
-- 
+
+-
+
 Hàng nguyên vẹn nhưng không còn nhu cầu
+
 ✔
+
 ✔
+
 ✔
+
 ✔
+
 ✔
+
 ✔
+
 Sản phẩm hoàn trả phải còn nguyên seal, tem, hộp sản phẩm
