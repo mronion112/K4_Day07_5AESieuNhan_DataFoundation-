@@ -194,7 +194,7 @@ Hoàn Xu theo tỷ lệ giá trị sản phẩm.
 
 ⚠️ Lưu ý:
 
-Voucher Shopee Live, Video Voucher, Voucher Người dùng mới Shopee, Voucher Người dùng mới Shopee Pay, Voucher Người dùng mới SPay Later sẽ không được hoàn lại trong bất kỳ trường hợp nào (bao gồm trường hợp đơn hàng bị hủy hoặc đơn hàng được chấp nhận Trả hàng/hoàn tiền) nếu Voucher đã hết hiệu lực hoặc hết lượt sử dụng.
+Voucher Shopee Live, Video Voucher, Voucher Người dùng mới Shopee, Voucher Người dùng mới Shopee Pay, Voucher Người dùng mới SPayLater sẽ không được hoàn lại trong bất kỳ trường hợp nào (bao gồm trường hợp đơn hàng bị hủy hoặc đơn hàng được chấp nhận Trả hàng/hoàn tiền) nếu Voucher đã hết hiệu lực hoặc hết lượt sử dụng.
 
 Shop Voucher (mã do Người bán phát hành) và Mã miễn phí vận chuyển sẽ không được hoàn lại trong bất cứ trường hợp nào. Tuy nhiên, bạn có thể chủ động liên hệ với Người bán để được hỗ trợ về Shop Voucher
 
