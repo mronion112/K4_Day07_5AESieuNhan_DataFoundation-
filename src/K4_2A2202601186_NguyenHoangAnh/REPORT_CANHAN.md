@@ -148,30 +148,28 @@ Cặp	Câu A	Câu B	Dự đoán	Điểm thực tế	Đúng?
 
 ---
 
-## 5. Kết quả truy xuất của tôi (Competition Results)  --  Cá nhân (10 điểm)
+## 5. Kết quả truy xuất cá nhân — 10 điểm
 
-Chạy **10 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **Câu hỏi phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
+Thiết lập: `FixedSizeChunker(800, overlap=120)`, MockEmbedder, **274 chunks từ 6 tài liệu**, đúng 5 query chung của nhóm.
 
-**Chiến lược cá nhân:** `RecursiveChunker(separators=["\\n\\n", "\\n", ". ", " "], chunk_size=500)`
+| # | Query | Top-1 (tóm tắt) | Score | Đánh giá |
+|---|---|---|---:|---|
+| 1 | Hình thức và phí trả hàng | `tra-hang...::chunk_3`, đổi phương thức lấy hàng | 0,230391 | Đủ evidence khi gộp Top-3, Top-1 thiếu |
+| 2 | Chế tài hàng cấm/hạn chế | `quy-dinh-dang-ban...::chunk_9`, mô tả/khuyến mãi | 0,284884 | Sai section, thiếu evidence |
+| 3 | Khi Shopee thu thập dữ liệu | `dieu-khoan-dich-vu::chunk_41`, sở hữu trí tuệ | 0,427944 | Không liên quan |
+| 4 | Hàng không hỗ trợ vận chuyển | `chinh-sach-bao-mat::chunk_19`, cookie | 0,345976 | Top-1 sai; evidence đủ trong Top-3 |
+| 5 | Ngoại lệ người bán tự vận chuyển | `dieu-khoan-dich-vu::chunk_65`, tài khoản đảm bảo | 0,469247 | Không liên quan |
 
-**Embedder:** `text-embedding-3-small` (OpenAI)  --  **534 chunks** từ 6 tài liệu
+**Evidence Hit@3: 2/5; điểm tạm theo rubric: 2/10.** Chi tiết Top-3, A/B filter và failure case nằm trong `BENCHMARK_ANALYSIS.md`.
 
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan? (Relevant) | Câu trả lời của Agent (tóm tắt) |
-|---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Hình thức trả hàng | "Đơn vị vận chuyển đến lấy hàng (Miễn phí trả hàng)..." | 0.74 | Đúng một phần (1/3 snippet) | Thiếu 2 hình thức (bưu cục, tự sắp xếp) |
-| 2 | Hậu quả vi phạm SP cấm (filter seller) | "Tuyên truyền về những thông tin pháp luật nghiêm cấm..." | 0.55 | Sai | Chunk #5 mới có penalty list, ngoài top-3 |
-| 3 | Nội dung cấm đăng bán | "Tất cả chứng từ Người Bán được yêu cầu..." | 0.64 | Sai | Nói về chứng từ, không phải danh sách cấm |
-| 4 | Thu thập dữ liệu cá nhân | "Dữ liệu cá nhân Shopee có thể thu thập bao gồm..." | 0.73 | Đúng chủ đề, sai khía cạnh | Liệt kê LOẠI dữ liệu, không nói KHI NÀO |
-| 5 | Hàng không vận chuyển | "Các loại hàng hóa không hỗ trợ vận chuyển..." | 0.77 | Đúng | Truy xuất tốt nhất, 2/3 chunk liên quan |
-| 6 | Điều kiện độ tuổi | "Dịch Vụ không dành cho trẻ em dưới 13 tuổi..." | 0.67 | Sai nội dung | Nói về trẻ em <13, không phải yêu cầu >=18 |
-| 7 | Chứng từ đăng bán (filter seller) | "Người Bán cần phải cung cấp Hóa đơn, chứng từ..." | 0.70 | Đúng một phần | Có filter seller, top-1 từ doc vận chuyển |
-| 8 | Trách nhiệm vận chuyển | "Miễn trừ trách nhiệm cho Shopee..." | 0.77 | Đúng | 3/3 chunk đúng doc, 2 snippets khớp |
-| 9 | Chia sẻ dữ liệu bên thứ ba | "Dữ liệu cá nhân Shopee có thể thu thập..." | 0.71 | Sai | Nhầm "thu thập" vs "chia sẻ" - FAILURE CASE |
-| 10 | Bồi thường vận chuyển | "Bưu kiện phải được đóng gói sẵn sàng..." | 0.55 | Đúng một phần (1/3 snippet) | Score thấp, không đủ context bồi thường |
+### A/B filter
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 6 / 10 (Q1, Q5, Q6, Q7, Q8, Q10 có ít nhất 1 chunk chứa snippet liên quan; Q2, Q3, Q4, Q9 không có)
+- Query 1: filter `buyer` cải thiện từ miss thành hit.
+- Query 2: filter `seller` đổi thứ hạng nhưng vẫn miss; đúng vai trò không bảo đảm đúng section.
 
-**Điểm truy xuất: 8/20** (theo tiêu chí snippet matching  --  mỗi câu 2 điểm)
+### Failure case
+
+Ở query 2, cả ba chunk đầu đều không chứa các chế tài dù Top-3 có một chunk thuộc đúng tài liệu gold. Điều này cho thấy chỉ kiểm tra `doc_id` sẽ đánh giá quá cao. Cần chấm chuỗi evidence trong nội dung; sau đó thử multilingual embedding và thêm `section_title` vào text embedding.
 
 ---
 
