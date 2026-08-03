@@ -148,25 +148,30 @@ Cặp	Câu A	Câu B	Dự đoán	Điểm thực tế	Đúng?
 
 ---
 
-## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
+## 5. Kết quả truy xuất của tôi (Competition Results)  --  Cá nhân (10 điểm)
 
-Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
+Chạy **10 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **Câu hỏi phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
 
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
+**Chiến lược cá nhân:** `RecursiveChunker(separators=["\\n\\n", "\\n", ". ", " "], chunk_size=500)`
+
+**Embedder:** `text-embedding-3-small` (OpenAI)  --  **534 chunks** từ 6 tài liệu
+
+| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan? (Relevant) | Câu trả lời của Agent (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Hình thức trả hàng | "Đơn vị vận chuyển đến lấy hàng (Miễn phí trả hàng)..." | 0.74 | ⚠️ Có 1/3 snippet | Thiếu 2 hình thức còn lại |
-| 2 | Hậu quả vi phạm 🔍 | "Tuyên truyền về những thông tin mà pháp luật nghiêm cấm..." | 0.52 | ❌ Không | Sai nội dung, không có penalty list |
-| 3 | Nội dung cấm đăng bán | "Tất cả chứng từ mà Người Bán được yêu cầu..." | 0.64 | ❌ Không | Nói về chứng từ, không phải nội dung cấm |
-| 4 | Thu thập dữ liệu | "Dữ liệu cá nhân mà Shopee có thể thu thập bao gồm..." | 0.73 | ⚠️ Đúng chủ đề, sai khía cạnh | Liệt kê loại dữ liệu, không nói "khi nào" |
-| 5 | Hàng không vận chuyển | "Các loại hàng hóa không hỗ trợ vận chuyển trên Sàn Shopee..." | 0.77 | ✅ Có 2/3 chunk liên quan | Đúng và đầy đủ |
+| 1 | Hình thức trả hàng | "Đơn vị vận chuyển đến lấy hàng (Miễn phí trả hàng)..." | 0.74 | Đúng một phần (1/3 snippet) | Thiếu 2 hình thức (bưu cục, tự sắp xếp) |
+| 2 | Hậu quả vi phạm SP cấm (filter seller) | "Tuyên truyền về những thông tin pháp luật nghiêm cấm..." | 0.55 | Sai | Chunk #5 mới có penalty list, ngoài top-3 |
+| 3 | Nội dung cấm đăng bán | "Tất cả chứng từ Người Bán được yêu cầu..." | 0.64 | Sai | Nói về chứng từ, không phải danh sách cấm |
+| 4 | Thu thập dữ liệu cá nhân | "Dữ liệu cá nhân Shopee có thể thu thập bao gồm..." | 0.73 | Đúng chủ đề, sai khía cạnh | Liệt kê LOẠI dữ liệu, không nói KHI NÀO |
+| 5 | Hàng không vận chuyển | "Các loại hàng hóa không hỗ trợ vận chuyển..." | 0.77 | Đúng | Truy xuất tốt nhất, 2/3 chunk liên quan |
+| 6 | Điều kiện độ tuổi | "Dịch Vụ không dành cho trẻ em dưới 13 tuổi..." | 0.67 | Sai nội dung | Nói về trẻ em <13, không phải yêu cầu >=18 |
+| 7 | Chứng từ đăng bán (filter seller) | "Người Bán cần phải cung cấp Hóa đơn, chứng từ..." | 0.70 | Đúng một phần | Có filter seller, top-1 từ doc vận chuyển |
+| 8 | Trách nhiệm vận chuyển | "Miễn trừ trách nhiệm cho Shopee..." | 0.77 | Đúng | 3/3 chunk đúng doc, 2 snippets khớp |
+| 9 | Chia sẻ dữ liệu bên thứ ba | "Dữ liệu cá nhân Shopee có thể thu thập..." | 0.71 | Sai | Nhầm "thu thập" vs "chia sẻ" - FAILURE CASE |
+| 10 | Bồi thường vận chuyển | "Bưu kiện phải được đóng gói sẵn sàng..." | 0.55 | Đúng một phần (1/3 snippet) | Score thấp, không đủ context bồi thường |
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 3 / 5 (Q1, Q5, Q7 có ít nhất 1 chunk liên quan; Q2, Q3 không có)
+**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 6 / 10 (Q1, Q5, Q6, Q7, Q8, Q10 có ít nhất 1 chunk chứa snippet liên quan; Q2, Q3, Q4, Q9 không có)
 
-**Kết quả 10 query đầy đủ:** 8/20 điểm (theo snippet matching). Tốt nhất: Q5 (2/2), Q8 (2/2). Tệ nhất: Q2 (0/2), Q3 (0/2), Q4 (0/2), Q9 (0/2).
-
-**Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> Chưa có (sẽ cập nhật sau khi demo với nhóm). Dự kiến: so sánh RecursiveChunker(500) của tôi với FixedSizeChunker(overlap=100) và HeadingChunker của các thành viên khác để xem chiến lược nào cải thiện precision trên Q2, Q3, Q9.
-
+**Điểm truy xuất: 8/20** (theo tiêu chí snippet matching  --  mỗi câu 2 điểm)
 
 ---
 
